@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html lang="kr">
+<head>
+<title>Main</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<script type="text/javascript" src="js/jquery-1.11.1.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="js/swfobject.js" charset="utf-8"></script>
+<script type="text/javascript">
+var p_args_alert = function(args) {
+	var t_str = '';
+	var t_la = args.length;
+	var i;
+	for (i = 0; i < t_la; i++) {
+		if (i < t_la - 1)
+			t_str += args[i] + ', ';
+		else
+			t_str += args[i];
+	}
+
+	alert(t_str);
+};
+
+var p_js3_call = function() {
+	try {
+		p_thisMovie('flash_obj').p_as3_call.apply(this, arguments);
+	}
+	catch (e) {}
+
+	//alert('p_js3_call');
+	//alert('arguments: ' + arguments);
+	//p_args_alert(arguments);
+};
+
+var p_js2_call = function() {
+	try {
+		p_thisMovie('flash_obj').p_as2_call.apply(null, arguments);
+	}
+	catch (e) {}
+
+	//alert('p_js2_call');
+	//alert('arguments: ' + arguments);
+	//p_args_alert(arguments);
+};
+
+var p_thisMovie = function(movieName) {
+	return jQuery('#' + movieName)[0];
+};
+
+// - 도큐먼트 시작
+jQuery(document).ready(function() {
+	var t_flashVars = {};
+	t_flashVars.type = '';
+
+	var t_params = {};
+	t_params.allowscriptaccess = 'always';
+	t_params.base = '.';
+	t_params.wmode = 'window';
+
+	var t_attr = {};
+	t_attr.id = 'flash_obj';
+	window.swfobject.embedSWF(
+		'Main.swf', 'flashCont_dv', '100%', '100%', '11.0.0', false, t_flashVars, t_params, t_attr);
+
+
+	jQuery('#test_dv').click(function() {
+		p_js3_call('p_haha', 'Hello ActionScript 3');
+	});
+});
+</script>
+<style type="text/css">
+body {
+	margin: 0px; padding: 0px; overflow: hidden;
+	background-color: #ffffff;
+	font-family: 굴림, 돋움, Vernada;
+	font-size: 11px;
+	color: #000000;
+}
+
+#mainCont_dv {
+	position: absolute; left: 0px; top: 100px;
+	width: 100%; height: 100%;
+	overflow: hidden;
+}
+</style>
+</head>
+<body>
+	<div id="test_dv" style="width: 100px; height: 100px; background-color: #ff0000; cursor: pointer;"></div>
+	<div id="mainCont_dv">
+		<div id="flashCont_dv">
+
+		</div>
+	</div>
+</body>
+</html>

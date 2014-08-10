@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html lang="kr">
+<head>
+<title>Main</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<script type="text/javascript" src="js/jquery-1.11.1.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+// - 도큐먼트 시작
+jQuery(document).ready(function() {
+});
+</script>
+<style type="text/css">
+body {
+	margin: 0px; padding: 0px; overflow: hidden;
+	background-color: #ffffff;
+	font-family: 굴림, 돋움, Vernada;
+	font-size: 11px;
+	color: #000000;
+}
+
+#mainCont_dv {
+	position: absolute; left: 0px; top: 0px;
+	width: 100%; height: 100%;
+	overflow: hidden;
+}
+</style>
+</head>
+
+<body>
+<!-- Main Swf -->
+<div id="mainCont_dv"></div>
+<script type="text/javascript">
+(function() {
+	var t_id		= 'flash_obj',
+		t_url		= 'Main.swf',
+		t_flashVars = '';
+
+	jQuery('#mainCont_dv').html(
+		'<object ' +
+			'codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab" ' +
+			'classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" ' +
+			'id="' + t_id + '" ' +
+			'width="100%" height="100%">' +
+			'<param name="movie" value="' + t_url + '" />' +
+			'<param name="wmode" value="window" />' +
+			'<param name="quality" value="high" />' +
+			'<param name="menu" value="false" />' +
+			'<param name="scale" value="showall" />' +
+			'<param name="align" value="middle" />' +
+			'<param name="salign" value="" />' +
+			'<param name="bgcolor" value="#ffffff" />' +
+			'<param name="play" value="true" />' +
+			'<param name="loop" value="true" />' +
+			'<param name="allowscriptaccess" value="always" />' +
+			'<param name="allownetworking" value="all" />' +
+			'<param name="allowfullscreen" value="true" />' +
+			'<param name="base" value=".">' +
+			'<param name="flashvars" value="' + t_flashVars + '" />' +
+			'<embed ' +
+				'pluginspage="http://www.macromedia.com/go/getflashplayer" ' +
+				'type="application/x-shockwave-flash" ' +
+				'id="' + t_id + '" ' +
+				'src="' + t_url + '" ' +
+				'width="100%" ' +
+				'height="100%" ' +
+				'wmode="window" ' +
+				'quality="high" ' +
+				'menu="true" ' +
+				'scale="showall" ' +
+				'align="middle" ' +
+				'salign="" ' +
+				'bgcolor="#ffffff" ' +
+				'play="true" ' +
+				'loop="true" ' +
+				'allowscriptaccess="always" ' +
+				'allownetworking="all" ' +
+				'allowfullscreen="true" ' +
+				'base="." ' +
+				'flashVars="' + t_flashVars + '">' +
+		'</object>'
+	);
+})();
+</script>
+</body>
+</html>
