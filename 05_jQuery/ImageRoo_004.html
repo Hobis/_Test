@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html lang="kr">
+<head>
+<title>ImageRoo</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<script type="text/javascript" src="js/jquery-1.11.1.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="js/swfobject.js" charset="utf-8"></script>
+<script type="text/javascript">
+jQuery(window.document).ready(function() {
+	var t_o = null;
+
+	// 상단Ui
+	t_o = jQuery('div#topUi_1');
+	t_o.css({
+		'position': 'absolute',
+		'width': '160px',
+		'height': '70px',
+		'left': '0px',
+		'top': '0px',
+		'background-color': '#ff0000'
+	});
+	jQuery(window).resize(function() {
+/*
+		var t_win = jQuery(this);
+		var t_cw = t_win.width();
+		var t_ch = t_win.height();
+		var t_x = Math.round((t_cw / 2) - (160 / 2));
+		var t_y = Math.round((t_ch / 2) - (70 / 2));
+
+		var t_o = jQuery('div#topUi_1');
+		t_o.css('left', t_x + 'px');
+		t_o.css('top', t_y + 'px');*/
+
+		var t_win = jQuery(this);
+		var t_cw = t_win.width();
+		var t_o = jQuery('div#topUi_1');
+		var t_x = Math.round(t_cw - t_o.width());
+		t_o.css('left', t_x + 'px');
+	});
+	jQuery(window).resize();
+
+	// 팝업 컨테이너
+	t_o = jQuery('div#popUpCont_dv');
+	t_o.css({
+		//'padding-top': '12%',
+		'position': 'absolute',
+		'width': '100%',
+		'height': '100%',
+		'left': '0px',
+		'top': '0px'/*,
+		'background-color': 'rgba(0,0,0,0.5)'*/
+	});
+	t_o.hide();
+
+	t_o = jQuery('div#popUpFloor_1');
+	t_o.css({
+		'position': 'absolute',
+		'width': '100%',
+		'height': '100%',
+		'left': '0px',
+		'top': '0px',
+		'background-color': '#000000',
+		'opacity': '0.6'
+	});
+
+	// 팝업_1
+	t_o = jQuery('div#popUp_1');
+	t_o.css({
+		'position': 'absolute',
+		'width': '600px',
+		'height': '400px',
+		'left': '50%',
+		'top': '50%',
+		'margin-left': '-300px',
+		'margin-top': '-240px',
+		'background-color': '#ff0000',
+		'background-image': 'url(images/roo.png)',
+		//'background-repeat': 'no-repeat',
+		'background-position': '0px 0px',
+		'cursor': 'pointer'
+	});
+});
+</script>
+</head>
+<body style="margin: 0px; overflow: hidden;">
+<iframe id="" src="http://logeniz.ivyro.net/_test5/main.html" scrolling="no"
+	style="position: absolute; left: 0px; top: 0px; width: 100%; height: 100%; border: none; overflow: hidden;"></iframe>
+<div id="topUi_1"></div>
+<div id="popUpCont_dv">
+	<div id="popUpFloor_1"></div>
+	<div id="popUp_1"></div>
+</div>
+</body>
+</html>
