@@ -1,0 +1,169 @@
+﻿<!DOCTYPE html>
+<html lang="kr">
+<head>
+<title>ImageRoo</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<script type="text/javascript" src="js/jquery-1.11.1.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="js/swfobject.js" charset="utf-8"></script>
+<script type="text/javascript">
+// ::
+var p_controlBox_bts_create = function(cont, id, w, h, click) {
+	jQuery('<div id="' + id + '"></div>').css({
+		'float': 'left',
+		'width': w + 'px',
+		'height': h + 'px',
+		'background-color': '#000000',
+		'background-image': 'url(images/roo.png)',
+		'background-repeat': 'no-repeat',
+		'background-position': '0px 0px',
+		'cursor': 'pointer'
+	}).mouseout(function(eObj) {
+		jQuery(this).css('background-position', '0px 0px');
+	}).mouseover(function(eObj) {
+		jQuery(this).css('background-position', '0px ' + (-h) + 'px');
+	}).mouseup(function(eObj) {
+		jQuery(this).css('background-position', '0px 0px');
+	}).mousedown(function(eObj) {
+		jQuery(this).css('background-position', (-w) + 'px ' + (-h) + 'px');
+	}).click(click).appendTo(cont);
+};
+
+// :: @Param(css: Container Selector String)
+var p_controlBox_create = function(contId, items) {
+	//
+	//
+	var t_cont = jQuery('#' + contId);
+	var t_boxId = contId + '_controlBox';
+	var t_box = jQuery('<div id="' + t_boxId + '"></div>').css({
+		'position': 'absolute',
+		'left': '0px',
+		'top': '0px',
+		'background-color': '#ff0000'
+	}).appendTo(t_cont);
+
+	//
+	//
+	var t_bw = 0;
+	for (var i = 0, t_la = items.length; i < t_la; i++) {
+		var t_io = items[i];
+		p_controlBox_bts_create(
+			t_box, t_boxId + '_tb_' + (i + 1), t_io.w, t_io.h, t_io.click);
+
+		t_bw += t_io.w;
+	}
+	t_box.css('width', t_bw + 'px');
+
+	//
+	//
+	jQuery(window).resize({
+			cont: t_cont, box: t_box, mr: 10, mt: 10
+		},
+
+		function(eObj) {
+			var t_data = eObj.data;
+			var t_cw = t_data.cont.width();
+			var t_ch = t_data.cont.height();
+			var t_box = t_data.box;
+
+			var t_mr = t_data.mr;
+			var t_mt = t_data.mt;
+
+			var t_x = t_cw - (t_box.width() + t_mr);
+			var t_y = 0 + t_mt;
+
+			t_box.css('left', t_x + 'px');
+			t_box.css('top', t_y + 'px');
+		}
+	).resize();
+};
+
+// ::
+var p_popUp_init = function(cont, id) {
+	// 팝업 컨테이너
+	jQuery('div#popUpCont_dv').css({
+		'position': 'absolute',
+		'width': '100%',
+		'height': '100%',
+		'left': '0px',
+		'top': '0px'
+	}).hide();
+
+	//
+	jQuery('div#popUpFloor_1').css({
+		'position': 'absolute',
+		'width': '100%',
+		'height': '100%',
+		'left': '0px',
+		'top': '0px',
+		'background-color': '#000000',
+		'opacity': '0.6'
+	});
+
+	// 팝업_1
+	jQuery('div#popUp_1').css({
+		'position': 'absolute',
+		'width': '600px',
+		'height': '400px',
+		'left': '50%',
+		'top': '50%',
+		'margin-left': '-300px',
+		'margin-top': '-200px',
+		'background-color': '#ff0000'
+	});
+
+	//
+	//
+	p_controlBox_create('popUp_1', [
+			{
+				w: 34, h: 34,
+				click: function() {
+					jQuery('#popUpCont_dv').hide();
+				}
+			}
+		]
+	);
+};
+
+
+//
+jQuery(document).ready(function() {
+	p_controlBox_create('body_1', [
+			{
+				w: 34, h: 34,
+				click: function() {
+				}
+			}
+
+			,
+			{
+				w: 34, h: 34,
+				click: function() {
+				}
+			}
+
+			,
+			{
+				w: 34, h: 34,
+				click: function() {
+					jQuery('#popUpCont_dv').show();
+				}
+			}
+		]
+	);
+	p_popUp_init();
+});
+</script>
+</head>
+<body id="body_1" style="margin: 0px; overflow: hidden;">
+<iframe id="flash_if" src="http://logeniz.ivyro.net/_test5/main.html" scrolling="no"
+	style="position: absolute; left: 0px; top: 0px; width: 100%; height: 100%; border: none; overflow: hidden;"></iframe>
+<div id="body_controlBox_1"></div>
+<div id="popUpCont_dv">
+	<div id="popUpFloor_1"></div>
+	<div id="popUp_1">
+		<div id="popUp_1_controlBox_1"></div>
+	</div>
+</div>
+</body>
+</html>

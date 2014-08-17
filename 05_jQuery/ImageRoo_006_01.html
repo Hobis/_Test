@@ -1,0 +1,146 @@
+﻿<!DOCTYPE html>
+<html lang="kr">
+<head>
+<title>ImageRoo</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<script type="text/javascript" src="js/jquery-1.11.1.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="js/swfobject.js" charset="utf-8"></script>
+<script type="text/javascript">
+// #
+var _ControlBox = function(sw, sh) {
+	this.p_initOnce(sw, sh);
+};
+_ControlBox.prototype = {
+	p_initOnce: function(sw, sh) {
+		this._sw = sw, this._sh = sh;
+
+		//
+		// Top ControlBox
+		var t_uiCont = jQuery('div#topUi_1');
+		t_uiCont.css({
+			'position': 'absolute',
+			'width': '102px',
+			'height': '34px',
+			'left': '0px',
+			'top': '0px',
+			'background-color': '#ff0000'
+		});
+
+		//
+		//
+		this.p_createBtn(t_uiCont, 'tb_1', 34, 34,
+			function() {
+				alert('tb_1');
+			});
+		this.p_createBtn(t_uiCont, 'tb_2', 34, 34,
+			function() {
+				alert('tb_2');
+			});
+		this.p_createBtn(t_uiCont, 'tb_3', 34, 34,
+			function() {
+				alert('tb_3');
+			});
+
+		//
+		//
+		jQuery(window).resize(function() {
+			var t_win = jQuery(this);
+			var t_cw = t_win.width();
+			//var t_ch = t_win.height();
+			var t_o = jQuery('div#topUi_1');
+
+			var t_mr = 10;
+			var t_mt = 10;
+
+			var t_x = t_cw - (t_o.width() + t_mr);
+			var t_y = 0 + t_mt;
+
+			t_o.css('left', t_x + 'px');
+			t_o.css('top', t_y + 'px');
+		}).resize();
+	}
+
+	,
+	p_createBtn: function(cont, id, w, h, click) {
+		jQuery('<div id="' + id + '"></div>').css({
+			'float': 'left',
+			'width': w + 'px',
+			'height': h + 'px',
+			'background-color': '#ff0000',
+			'background-image': 'url(images/roo.png)',
+			'background-repeat': 'no-repeat',
+			'background-position': '0px 0px',
+			'cursor': 'pointer'
+		}).mouseout(function(eObj) {
+			jQuery(this).css('background-position', '0px 0px');
+		}).mouseover(function(eObj) {
+			jQuery(this).css('background-position', '0px ' + (-h) + 'px');
+		}).mouseup(function(eObj) {
+			jQuery(this).css('background-position', '0px 0px');
+		}).mousedown(function(eObj) {
+			jQuery(this).css('background-position', (-w) + 'px ' + (-h) + 'px');
+		}).click(click).appendTo(cont);
+	}
+};
+
+// #
+var _PopUp = {
+	initOnce: function() {
+		// 팝업 컨테이너
+		jQuery('div#popUpCont_dv').css({
+			'position': 'absolute',
+			'width': '100%',
+			'height': '100%',
+			'left': '0px',
+			'top': '0px'
+		}).hide();
+
+		//
+		jQuery('div#popUpFloor_1').css({
+			'position': 'absolute',
+			'width': '100%',
+			'height': '100%',
+			'left': '0px',
+			'top': '0px',
+			'background-color': '#000000',
+			'opacity': '0.6'
+		});
+
+		// 팝업_1
+		jQuery('div#popUp_1').css({
+			'position': 'absolute',
+			'width': '600px',
+			'height': '400px',
+			'left': '50%',
+			'top': '50%',
+			'margin-left': '-300px',
+			'margin-top': '-240px',
+			'background-color': '#ff0000',
+			'background-image': 'url(images/roo.png)',
+			//'background-repeat': 'no-repeat',
+			'background-position': '0px 0px',
+			'cursor': 'pointer'
+		});
+	}
+};
+
+
+// ::
+jQuery(document).ready(function() {
+	var t_wo = jQuery(window);
+	var t_cb = new _ControlBox(t_wo.width(), t_wo.heigh());
+	//_PopUp.initOnce();
+});
+</script>
+</head>
+<body style="margin: 0px; overflow: hidden;">
+<iframe id="" src="http://logeniz.ivyro.net/_test5/main.html" scrolling="no"
+	style="position: absolute; left: 0px; top: 0px; width: 100%; height: 100%; border: none; overflow: hidden;"></iframe>
+<div id="topUi_1"></div>
+<div id="popUpCont_dv">
+	<div id="popUpFloor_1"></div>
+	<div id="popUp_1"></div>
+</div>
+</body>
+</html>
