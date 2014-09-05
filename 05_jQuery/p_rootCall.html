@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="Generator" content="EditPlus®">
+<meta name="Author" content="">
+<meta name="Keywords" content="">
+<meta name="Description" content="">
+<title>Document</title>
+</head>
+<body>
+<script type="text/javascript">
+// ::
+var p_test = function(id, name, age, job) {
+	alert('id: ' + id);
+	alert('name: ' + name);
+	alert('age: ' + age);
+	alert('job: ' + job);
+};
+
+// ::
+var p_rootCall = function() {
+	var t_mshift = Array.prototype.shift;
+	var t_fn = t_mshift.call(arguments);
+	var t_parent = window.parent;
+	var t_f = t_parent[t_fn];
+	if (t_f != undefined) {
+		t_f.apply(null, arguments);
+	}
+};
+
+p_rootCall('p_test', 'hobisjung', 'jungheebum', '35', 'Computer Programmer');
+
+//alert(sortArgs(8, 1, 2, 3));
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+<title>functions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<script type="text/javascript" src="js/jquery-1.11.1.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// # [Test] 관련 함수들
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// :: [Test] trace
+var hb_trace = function(msg) {
+	window.alert('# [hb] ' + msg);
+};
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// # [Object] 관련 함수들
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// :: Object 속성 스트링으로 반환
+var hb_obj_get_props = function(obj) {
+	var t_str = null;
+
+	for (var t_p in obj) {
+		if (t_str == null)
+			t_str = '';
+		t_str += (t_p + ': ' + obj[t_p] + ',\n');
+	}
+	t_str = t_str.substr(0, t_str.length - 2);
+
+	return t_str;
+}
+
+// :: Object 정보 출력
+var hb_obj_propsView = function(obj) {
+	hb_trace(hb_obj_get_props(obj));
+};
+
+// :: 인자 출력해보기
+var hb_args_trace = function() {
+	if (arguments.length < 1) return;
+
+	for (
+		var t_str = null,
+			t_la = arguments.length,
+			i = 0;
+		i < t_la; i++
+	) {
+		if (t_str == null) {
+			t_str = '';
+		}
+
+		if (i < (t_la - 1)) {
+			t_str += arguments[i] + ', ';
+		}
+		else {
+			t_str += arguments[i];
+		}
+	}
+
+	hb_trace(t_str);
+};
+//
+//
+//
+//
+(function() {
+	//hb_args_trace(10, 10, 10, 10);
+})();
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// # [Data] 관련 함수들
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// :: ParameterObject -> QueryString 변화
+var hb_convert_qStr = function(pObj) {
+	var t_rv = null;
+
+	for (var t_p in pObj) {
+		if (t_rv == null)
+			t_rv = '';
+
+		var t_valStr = pObj[t_p];
+		t_valStr = encodeURIComponent(t_valStr);
+		var t_addStr = t_p + '=' + t_valStr + '&';
+		t_rv += t_addStr;
+	}
+
+	if (t_rv != null)
+		t_rv = t_rv.substr(0, t_rv.length - 1);
+
+	return t_rv;
+};
+
+// :: QueryString -> ParameterObject
+var hb_convert_pObj = function(qStr) {
+	var t_rv = null;
+
+	var t_nvss = qStr.split('&');
+	if (t_nvss != null)
+	{
+		for (
+			var i = 0, t_la = t_nvss.length;
+			i < t_la; i++
+		) {
+			if (t_rv == null)
+				t_rv = {};
+
+			var t_nvs = t_nvss[i];
+			var t_pis = t_nvs.split('=');
+			var t_pin = t_pis[0];
+			var t_piv = decodeURIComponent(t_pis[1]);
+			t_rv[t_pin] = t_piv;
+		}
+	}
+
+	return t_rv;
+};
+//
+//
+//
+//
+(function() {
+/*
+	var t_dObj = {
+		'font-weight': 'normal',
+		'font-size': '12px',
+		'color': '#333',
+		'text-align': 'left',
+		'font-family': 'dotum&&=='
+	};
+
+	var t_qStr = hb_convert_qStr(t_dObj);
+	var t_pObj = hb_convert_pObj(t_qStr);
+	alert('QueryString: ' + t_qStr);
+	alert('ParameterObject: ' + t_pObj['font-weight']);
+	alert('ParameterObject: ' + t_pObj['font-size']);
+	alert('ParameterObject: ' + t_pObj['color']);
+	alert('ParameterObject: ' + t_pObj['text-align']);
+	alert('ParameterObject: ' + t_pObj['font-family']);*/
+})();
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// # [String] 관련 함수들
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// :: 마지막 이름 반환
+var hb_str_get_lastName = function(url, token) {
+	if (token == undefined)
+		token = '/';
+
+	var t_rv = null;
+
+	var t_ss = url.split(token);
+	if (t_ss != null) {
+		var t_s = t_ss[t_ss.length - 1];
+		var t_li = t_s.lastIndexOf('.swf');
+		t_rv = t_s.substr(0, t_li);
+	}
+
+	return t_rv;
+};
+
+// :: 라스트 인덱트 찾기 2
+var hb_str_getLastIndex2 = function(name, step, token) {
+	if (step == undefined)
+		step = 0;
+	if (token == undefined)
+		token = '_';
+
+	var t_rv = -1;
+	var t_fi = name.length - 1, t_ti, t_bi, t_len;
+	for (var i = 0; i <= step; i ++) {
+		t_ti = name.lastIndexOf(token, t_fi);
+
+		if (t_ti > -1) {
+			t_bi = t_ti + token.length;
+			t_len = (t_fi - t_bi) + 1;
+			t_fi = t_ti - 1;
+		}
+		else {
+			t_bi = -1;
+			break;
+		}
+	}
+
+	if (t_bi > -1) {
+		var t_numStr = name.substr(t_bi, t_len);
+		var t_check = Number(t_numStr);
+
+		if (!isNaN(t_check)) {
+			t_rv = t_check;
+		}
+	}
+
+	return t_rv;
+};
+
+// :: 토큰문자 개수만큼 채우기
+var hb_str_addToken = function(target, count, token) {
+	if (token == undefined)
+		token = '0';
+
+	var t_str = String(target);
+	var t_len = count - t_str.length;
+	var i = 0;
+
+	while (i < t_len) {
+		t_str = token + t_str;
+
+		i++;
+	}
+
+	return t_str;
+};
+//
+//
+//
+//
+(function() {
+})();
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// # [Cookie] 관련 함수들
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// :: 쿠키모두삭제
+var hb_cookie_clearAll = function() {
+};
+
+// :: 쿠키삭제
+var hb_cookie_clear = function(name) {
+	var t_date = new Date();
+	t_date.setDate(t_date.getDate() - 1);
+	hb_cookie_add(name, '', t_date);
+};
+
+// :: 쿠키반환
+var hb_cookie_get = function(name) {
+	var t_rv = null;
+
+	if (
+		(document.cookie != undefined) &&
+		(document.cookie.length > 0)
+	) {
+		var t_cps = document.cookie.split(';');
+		for (
+			var
+				t_la = t_cps.length,
+				i = 0;
+				i < t_la;
+				i++
+		) {
+			var t_cp = t_cps[i];
+			var t_fi = t_cp.indexOf(name);
+			if (t_fi > -1) {
+				t_rv = t_cp.substr(name.length + 1);
+				break;
+			}
+		}
+	}
+
+	return t_rv;
+};
+
+// :: 쿠키등록
+var hb_cookie_add = function(name, value, expires, path, domain, secure) {
+	var t_str = '';
+		t_str += name + '=' + escape(value);
+
+	if (expires != undefined)
+		t_str += '; expires=' + expires.toGMTString();
+	if (path != undefined)
+		t_str += '; path=' + path;
+	if (domain != undefined)
+		t_str += '; domain=' + domain;
+	if (secure != undefined)
+		t_str += '; secure=' + secure;
+
+	document.cookie = t_str;
+};
+//
+//
+//
+//
+(function() {
+})();
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// # [Window] 관련 함수들
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// :: 풀사이즈
+var hb_win_resize_full = function() {
+	if (window.d_bWinFull == undefined)
+		window.d_bWinFull = false;
+
+	if (window.d_bWinFull) {
+		window.d_bWinFull = false;
+	}
+	else {
+		window.d_bWinFull = true;
+	}
+
+	hb_win_resize();
+};
+
+// :: 리사이즈
+var hb_win_resize = function() {
+	if (window.d_bWinFull == undefined)
+		window.d_bWinFull = false;
+
+	//var t_stage = jQuery(document);
+	var t_stage = jQuery(window);
+	var t_dw = t_stage.width();
+	var t_dh = t_stage.height();
+	var t_o = jQuery('#mainCont_dv');
+	var t_ow = m_do.mainCont_w;
+	var t_oh = m_do.mainCont_h;
+
+	if (window.d_bWinFull) {
+		t_o.width(t_dw);
+		t_o.height(t_dh);
+		t_o.css('left', '0px');
+		t_o.css('top', '0px');
+	}
+	else {
+		//t_o.width(t_ow);
+		//t_o.height(t_oh);
+		t_o.css('width', t_ow + 'px');
+		t_o.css('height', t_oh + 'px');
+		t_o.css('left', Math.round((t_dw / 2) - (t_ow / 2)));
+		t_o.css('top', Math.round((t_dh / 2) - (t_oh / 2)));
+	}
+
+	return t_o;
+};
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//	# [Swf] 관련 함수들
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// :: swf obj 참조
+var hb_swf_get = function(id) {
+	return jQuery('#' + id)[0];
+};
+
+// :: swf 임베드
+var hb_swf_embed = function(dObj) {
+};
+////////////////////////////////////////////////////////////////////////////////////////////////////
+</script>
+</head>
+<body style="margin: 0px;">
+</body>
+</html>
